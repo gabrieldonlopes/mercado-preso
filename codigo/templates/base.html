@@ -5,22 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mercado Preso - {% block title %}{% endblock %}</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
 <body>
     <header class="header">
-        <div class="container header-content">
-            <a href="{{ url_for('home') }}" class="logo">Mercado Preso</a>
-            <nav class="nav">
-                <div class="nav-links">
-                    {% if g.user %}
-                        <a href="{{ url_for('auth.logout') }}" class="nav-link">Sair</a>
-                    {% else %}
-                        <a href="{{ url_for('auth.login') }}" class="nav-link">Entrar</a>
-                        <a href="{{ url_for('auth.register') }}" class="nav-link">Criar conta</a>
-                    {% endif %}
-                </div>
-            </nav>
+        <div class="container">
+            <div class="header-content">
+                <a href="{{ url_for('home') }}" class="logo">Mercado Preso</a>
+                <nav class="nav">
+                    <div class="nav-links">
+                        {% if g.user %}
+                            {% if g.user.tipo_usuario.value == 'VENDEDOR' %}
+                                <a href="{{ url_for('compra.adicionar_produto') }}" class="nav-link">Adicionar Produto</a>
+                                <a href="{{ url_for('compra.meus_produtos') }}" class="nav-link">Meus Produtos</a>
+                            {% endif %}
+                            <a href="{{ url_for('compra.minhas_compras') }}" class="nav-link">Minhas Compras</a>
+                            <span class="nav-user">Olá, {{ g.user.nome }}</span>
+                            <a href="{{ url_for('auth.logout') }}" class="nav-link">Sair</a>
+                        {% else %}
+                            <a href="{{ url_for('auth.login') }}" class="nav-link">Entrar</a>
+                            <a href="{{ url_for('auth.register') }}" class="nav-link">Criar conta</a>
+                        {% endif %}
+                    </div>
+                </nav>
+            </div>
         </div>
     </header>
     

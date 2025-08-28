@@ -23,9 +23,11 @@ def create_app():
     # Registrar Blueprints
     from .autenticacao import bp_auth
     app.register_blueprint(bp_auth)
+    
+    from .compra import bp_compra
+    app.register_blueprint(bp_compra)
 
     @app.route("/")
-    
     def home():
         produtos = Produto.query.all()
 

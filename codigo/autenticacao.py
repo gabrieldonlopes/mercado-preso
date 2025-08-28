@@ -20,7 +20,7 @@ def register():
                 nome=form.nome.data,
                 email=form.email.data,
                 tipo_usuario=TipoUsuario(int(form.tipo_usuario.data)),
-                senha=form.senha.data
+                senha=generate_password_hash(form.senha.data)
             )
             
             db.session.add(usuario)

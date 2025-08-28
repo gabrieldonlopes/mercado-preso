@@ -18,12 +18,6 @@ class Usuario(db.Model):
     data_criacao = db.Column(db.DateTime, default=datetime.utcnow)
     ativo = db.Column(db.Boolean, default=True)
     
-    def __init__(self, nome, email, tipo_usuario, senha):
-        self.nome = nome
-        self.email = email
-        self.tipo_usuario = tipo_usuario
-        self.senha = generate_password_hash(senha)
-    
     def verificar_senha(self, senha):
         return check_password_hash(self.senha, senha)
     
@@ -46,3 +40,20 @@ class Produto(db.Model):
     
     def __repr__(self):
         return f'<Produto {self.nome}>'
+
+class Compra(db.Model):
+    __tablename__ = 'compras'
+    
+    compra_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    comprador_id = db.Column(db.Integer, db.ForeignKey('usuarios.user_id'), nullable=False)
+    produto_id = db.Column(db.Integer, db.ForeignKey('produtos.produto_id'), nullable=False)
+    quantidade = db.Column(db.Integer, default=1, nullable=False)
+    preco = db.Column(db.Float, nullable=False)
+    data_compra = db.Column(db.DateTime, nullable=True)
+    
+    # Relacionamentos
+    comprador = db.relationship('Usuario', foreign_keys=[comprador_id], backref=db.backref('compras', lazy=True))
+    produto = db.relationship('Produto', foreign_keys=[produto_id], backref=db.backref('compras', lazy=True))
+    
+    def __repr__(self):
+        return f'<Compra {self.compra_id}: {self.quantidade}x {self.produto.nome}>'
