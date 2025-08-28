@@ -20,7 +20,7 @@ def register():
                 nome=form.nome.data,
                 email=form.email.data,
                 tipo_usuario=TipoUsuario(int(form.tipo_usuario.data)),
-                senha=generate_password_hash(form.senha.data)
+                senha=form.senha.data
             )
             
             db.session.add(usuario)
@@ -41,7 +41,7 @@ def login():
     if form.validate_on_submit():
         user = Usuario.query.filter_by(nome=form.nome.data).first()
         session.clear()
-        session['usuario_id'] = user.usuario_id
+        session['user_id'] = user.user_id
         flash(f"Bem-vindo de volta, {user.nome}!", "success")
         return redirect(url_for('home'))
     
@@ -49,13 +49,13 @@ def login():
 
 @bp_auth.before_app_request
 def load_logged_in_user():
-    usuario_id = session.get('usuario_id')
+    user_id = session.get('user_id')
     
-    if usuario_id is None:
+    if user_id is None:
         g.user = None
     else:
         try:
-            g.user = Usuario.query.get(usuario_id)
+            g.user = Usuario.query.get(user_id)
         except:
             g.user = None
 

@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SelectField, SubmitField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
 from .models import Usuario, TipoUsuario
-from werkzeug.security import check_password_hash
+from werkzeug.security import check_password_hash,generate_password_hash
 
 class RegistrationForm(FlaskForm):
     nome = StringField('Nome completo', validators=[
@@ -12,7 +12,7 @@ class RegistrationForm(FlaskForm):
     
     email = StringField('E-mail', validators=[
         DataRequired(message='Campo obrigatório'),
-        Email(message='Digite um e-mail válido')
+        Email(message='Digite um e-mail válido') 
     ], render_kw={"placeholder": "Digite seu e-mail"})
     
     tipo_usuario = SelectField('Tipo de conta', 
@@ -57,5 +57,9 @@ class LoginForm(FlaskForm):
     
     def validate_senha(self, field):
         user = Usuario.query.filter_by(nome=self.nome.data).first()
+        
+        print(generate_password_hash(field.data))
+        print(user.senha)
+
         if user and not check_password_hash(user.senha, field.data):
             raise ValidationError('Senha incorreta')
