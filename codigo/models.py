@@ -1,4 +1,4 @@
-from . import db
+from .dependencies import db
 from enum import Enum
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash

@@ -1,14 +1,13 @@
 import os
 from dotenv import load_dotenv
 from flask import Flask, render_template
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
+from collections import defaultdict
 
 load_dotenv()
 basedir = os.path.abspath(os.path.dirname(__file__))
 
-db = SQLAlchemy()
-migrate = Migrate()
+from .dependencies import db, migrate
+from .models import Produto
 
 def create_app():
     app = Flask(__name__)
@@ -25,9 +24,16 @@ def create_app():
     from .autenticacao import bp_auth
     app.register_blueprint(bp_auth)
 
-    # Rotas básicas
     @app.route("/")
+    
     def home():
-        return render_template("home.html")
+        produtos = Produto.query.all()
+
+        # Agrupar produtos por vendedor
+        produtos_por_vendedor = defaultdict(list)
+        for produto in produtos:
+            produtos_por_vendedor[produto.vendedor].append(produto)
+
+        return render_template("home.html", produtos_por_vendedor=produtos_por_vendedor)
 
     return app

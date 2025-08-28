@@ -6,7 +6,7 @@ from sqlalchemy.exc import IntegrityError
 import functools
 
 from .models import Usuario, TipoUsuario
-from . import db
+from .dependencies import db
 from .forms import RegistrationForm, LoginForm
 
 bp_auth = Blueprint('auth', __name__, url_prefix='/auth')

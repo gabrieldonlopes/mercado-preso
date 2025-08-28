@@ -17,3 +17,5 @@ def ver_todos_produtos() -> list[Produto]:
         } 
         for p in produtos]
 
+def comprar_produto():
+    pass
