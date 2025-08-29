@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Adicionar Produto - Mercado Preso{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h1 class="auth-title">Adicionar Novo Produto</h1>
+            <p class="auth-subtitle">Preencha os dados do seu produto</p>
+        </div>
+        
+        <form method="POST" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            
+            <div class="form-group">
+                {{ form.nome.label(class="form-label") }}
+                {{ form.nome(class="form-control") }}
+                {% for error in form.nome.errors %}
+                    <span class="form-error">{{ error }}</span>
+                {% endfor %}
+            </div>
+            
+            <div class="form-group">
+                {{ form.descricao.label(class="form-label") }}
+                {{ form.descricao(class="form-control") }}
+                {% for error in form.descricao.errors %}
+                    <span class="form-error">{{ error }}</span>
+                {% endfor %}
+            </div>
+            
+            <div class="form-row" style="display: flex; gap: 15px;">
+                <div class="form-group" style="flex: 1;">
+                    {{ form.preco.label(class="form-label") }}
+                    {{ form.preco(class="form-control", type="number", step="0.01", min="0.01") }}
+                    {% for error in form.preco.errors %}
+                        <span class="form-error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                
+                <div class="form-group" style="flex: 1;">
+                    {{ form.estoque.label(class="form-label") }}
+                    {{ form.estoque(class="form-control", type="number", min="1") }}
+                    {% for error in form.estoque.errors %}
+                        <span class="form-error">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div class="form-group">
+                {{ form.imagem.label(class="form-label") }}
+                {{ form.imagem(class="form-control", accept=".jpg,.jpeg,.png,.gif") }}
+                <small class="form-text">Formatos permitidos: JPG, PNG, GIF</small>
+                {% for error in form.imagem.errors %}
+                    <span class="form-error">{{ error }}</span>
+                {% endfor %}
+            </div>
+            
+            {{ form.submit(class="btn btn-primary") }}
+        </form>
+        
+        <div class="auth-footer">
+            <a href="{{ url_for('home') }}" class="auth-link">Voltar para a página inicial</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

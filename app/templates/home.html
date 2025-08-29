@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Página Inicial{% endblock %}
+
+{% block content %}
+<div class="products-header">
+    <h1>Produtos em Destaque</h1>
+</div>
+
+<div class="products-container">
+    {% if produtos_por_vendedor %}
+        {% for vendedor, produtos in produtos_por_vendedor.items() %}
+        <div class="vendedor-section">
+            <h2 class="vendedor-name">Produtos de {{ vendedor.nome }}</h2>
+            <div class="products-grid">
+                {% for produto in produtos %}
+                <a href="{{ url_for('compra.ver_produto', produto_id=produto.produto_id) }}" class="product-card-link">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="{{ url_for('static', filename='uploads/produtos/' + produto.imagem) if produto.imagem else url_for('static', filename='images/default-product.jpg') }}" 
+                                 alt="{{ produto.nome }}">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-name">{{ produto.nome }}</h3>
+                            <p class="product-description">{{ produto.descricao|truncate(100) }}</p>
+                            <div class="product-details">
+                                <span class="product-price">R$ {{ "%.2f"|format(produto.preco) }}</span>
+                                <span class="product-stock">{{ produto.quantidade }} disponíveis</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="empty-state">
+            <h2>Nenhum produto disponível no momento</h2>
+            <p>Volte em breve para conferir nossas novidades!</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

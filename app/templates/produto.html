@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ produto.nome }}{% endblock %}
+
+{% block content %}
+<div class="product-detail">
+    <div class="product-detail-container">
+        <div class="product-image-large">
+            <img src="{{ url_for('static', filename='uploads/produtos/' + produto.imagem) if produto.imagem else url_for('static', filename='images/default-product.jpg') }}" 
+                 alt="{{ produto.nome }}">
+        </div>
+        
+        <div class="product-info-detail">
+            <h1>{{ produto.nome }}</h1>
+            <p class="product-description">{{ produto.descricao }}</p>
+            
+            <div class="product-price-detail">
+                <span class="price">R$ {{ "%.2f"|format(produto.preco) }}</span>
+                <span class="stock">{{ produto.quantidade }} unidades disponíveis</span>
+            </div>
+            
+            {% if g.user %}
+                <form method="POST" action="{{ url_for('compra.comprar_produto', produto_id=produto.produto_id) }}" class="purchase-form">
+                    <div class="form-group">
+                        <label for="quantidade" class="form-label">Quantidade:</label>
+                        <input type="number" id="quantidade" name="quantidade" 
+                               class="form-control" value="1" min="1" max="{{ produto.estoque }}">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-comprar">
+                        Comprar Agora
+                    </button>
+                </form>
+            {% else %}
+                <div class="login-prompt">
+                    <p>Faça <a href="{{ url_for('auth.login') }}">login</a> para comprar este produto.</p>
+                </div>
+            {% endif %}
+            
+            <div class="product-seller">
+                <h3>Vendedor</h3>
+                <p>{{ produto.vendedor.nome if produto.vendedor else 'Vendedor não disponível' }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
