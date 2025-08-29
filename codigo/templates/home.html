@@ -25,7 +25,7 @@
                             <p class="product-description">{{ produto.descricao|truncate(100) }}</p>
                             <div class="product-details">
                                 <span class="product-price">R$ {{ "%.2f"|format(produto.preco) }}</span>
-                                <span class="product-stock">{{ produto.estoque }} disponíveis</span>
+                                <span class="product-stock">{{ produto.quantidade }} disponíveis</span>
                             </div>
                         </div>
                     </div>

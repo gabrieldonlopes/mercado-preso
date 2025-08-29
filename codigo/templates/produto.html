@@ -16,7 +16,7 @@
             
             <div class="product-price-detail">
                 <span class="price">R$ {{ "%.2f"|format(produto.preco) }}</span>
-                <span class="stock">{{ produto.estoque }} unidades disponíveis</span>
+                <span class="stock">{{ produto.quantidade }} unidades disponíveis</span>
             </div>
             
             {% if g.user %}

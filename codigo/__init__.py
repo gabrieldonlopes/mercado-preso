@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from flask import Flask, render_template
+from flask import Flask, render_template,g
 from collections import defaultdict
 
 load_dotenv()
@@ -30,7 +30,7 @@ def create_app():
     @app.route("/")
     def home():
         produtos = Produto.query.all()
-
+        #print(g.user.tipo_usuario)
         # Agrupar produtos por vendedor
         produtos_por_vendedor = defaultdict(list)
         for produto in produtos:

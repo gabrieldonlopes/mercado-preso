@@ -31,8 +31,7 @@
                     <div class="product-details">
                         <span class="product-price">R$ {{ "%.2f"|format(produto.preco) }}</span>
                         <span class="product-sales">
-                            {% set total_vendas = produto.compras|length %}
-                            {{ total_vendas }} venda{{ 's' if total_vendas != 1 else '' }}
+                            1k vendas
                         </span>
                     </div>
                     
@@ -41,11 +40,11 @@
                            class="btn btn-secondary btn-sm">
                             Ver
                         </a>
-                        <a href="{{ url_for('compra.editar_produto', produto_id=produto.produto_id) }}" 
+                        <a href="{{ url_for('home') }}" 
                            class="btn btn-primary btn-sm">
                             Editar
                         </a>
-                        <form action="{{ url_for('compra.excluir_produto', produto_id=produto.produto_id) }}" 
+                        <form action="{{ url_for('home')}}" 
                               method="POST" class="delete-form">
                             <button type="submit" class="btn btn-danger btn-sm" 
                                     onclick="return confirm('Tem certeza que deseja excluir este produto?')">
@@ -74,7 +73,7 @@
                     </div>
                     <div class="stat-item">
                         <span class="stat-number">
-                            {{ produtos|sum(attribute='compras')|length }}
+                            1k
                         </span>
                         <span class="stat-label">Vendas Totais</span>
                     </div>
